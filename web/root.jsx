@@ -1,0 +1,55 @@
+import { Provider as GadgetProvider } from "@gadgetinc/react";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { Suspense } from "react";
+import { api } from "./api";
+import "./app.css";
+import { ProductionErrorBoundary, DevelopmentErrorBoundary } from "gadget-server/react-router";
+import { Toaster } from "./components/ui/sonner";
+
+const isProduction = process.env.NODE_ENV === "production";
+
+export const links = () => [];
+
+export const meta = () => [
+  { charset: "utf-8" },
+  { name: "viewport", content: "width=device-width, initial-scale=1" },
+  { title: "Gadget React Router app" },
+];
+
+export const loader = async ({ context }) => {
+  const { session, gadgetConfig } = context;
+
+  return {
+    gadgetConfig,
+    csrfToken: session?.get("csrfToken"),
+  };
+};
+
+export default function App({ loaderData }) {
+  const { gadgetConfig, csrfToken } = loaderData;
+
+  return (
+    <html lang="en" className="light">
+      <head>
+        <Meta />
+        <Links />
+        {!isProduction && <script type="module" src="/@vite/client" async />}
+      </head>
+      <body>
+        <Suspense>
+          <GadgetProvider api={api}>
+            <Outlet context={{ gadgetConfig, csrfToken }} />
+            <Toaster richColors />
+          </GadgetProvider>
+        </Suspense>
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+// Default Gadget error boundary component
+// This can be replaced with your own custom error boundary implementation
+// For more info, checkout https://reactrouter.com/how-to/error-boundary#1-add-a-root-error-boundary
+export const ErrorBoundary = isProduction ? ProductionErrorBoundary : DevelopmentErrorBoundary;
