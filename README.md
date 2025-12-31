@@ -24,7 +24,9 @@ This is a simplified MCP server with no bells and whistles, intended for educati
 
 ### 2. Replace the MCP File
 
-Copy the `api/mcp.js` file from this repo and replace the `api/mcp.js` file in your Gadget app.
+Copy the `mcp.js` file from the `/api/` folder in this repo and replace the `mcp.js` file in the `/api/` folder in your Gadget app.
+
+Alternatively, you can fork this entire app by using the [Gadget CLI](https://docs.gadget.dev/guides/development-tools/cli) to sync your app's files locally and replace them with the files in this repo. This README doesn't cover all the steps for this approach.
 
 ### 3. Add Your Weather API Key
 
@@ -75,3 +77,7 @@ Gadget development environments are paused after 60 minutes of inactivity. To ke
   }
 }
 ```
+
+---
+
+Got questions? Reach out to [@ralfelfving](https://twitter.com/ralfelfving)
